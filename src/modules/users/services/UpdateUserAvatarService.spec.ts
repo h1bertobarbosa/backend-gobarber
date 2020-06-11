@@ -3,13 +3,18 @@ import FakeStorageProvider from '@shared/container/providers/StorageProviders/fa
 import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
 import UpdateUserAvatarService from './UpdateUserAvatarService';
 
-describe('CreateUser', () => {
+let fakeUserRepo: FakeUserRepository;
+let updateUserAvatar: UpdateUserAvatarService;
+let fakeStorage: FakeStorageProvider;
+
+describe('UpdateAvatarUser', () => {
+  beforeEach(() => {
+    fakeStorage = new FakeStorageProvider();
+    fakeUserRepo = new FakeUserRepository();
+    updateUserAvatar = new UpdateUserAvatarService(fakeUserRepo, fakeStorage);
+  });
+
   it('shold be able to update user avatar', async () => {
-    const fakeUserRepo = new FakeUserRepository();
-    const updateUserAvatar = new UpdateUserAvatarService(
-      fakeUserRepo,
-      new FakeStorageProvider(),
-    );
     const user = await fakeUserRepo.create({
       name: 'John Doe',
       email: 'jsondoe@gmail.com',
@@ -25,12 +30,6 @@ describe('CreateUser', () => {
   });
 
   it('shold not be able to update avatar from non existing user', async () => {
-    const fakeUserRepo = new FakeUserRepository();
-    const updateUserAvatar = new UpdateUserAvatarService(
-      fakeUserRepo,
-      new FakeStorageProvider(),
-    );
-
     await expect(
       updateUserAvatar.execute({
         user_id: 'non',
@@ -40,15 +39,7 @@ describe('CreateUser', () => {
   });
 
   it('shold delete old avatar when updating new one', async () => {
-    const fakeUserRepo = new FakeUserRepository();
-    const fakeStorage = new FakeStorageProvider();
-
     const deleteFile = jest.spyOn(fakeStorage, 'deleteFile');
-
-    const updateUserAvatar = new UpdateUserAvatarService(
-      fakeUserRepo,
-      fakeStorage,
-    );
 
     const user = await fakeUserRepo.create({
       name: 'John Doe',
