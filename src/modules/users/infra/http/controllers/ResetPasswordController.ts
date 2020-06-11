@@ -12,6 +12,6 @@ export default class ForgotPasswordController {
       token,
     });
 
-    return response.status(204);
+    return response.sendStatus(204);
   }
 }
