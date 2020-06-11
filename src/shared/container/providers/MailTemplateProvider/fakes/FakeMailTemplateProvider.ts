@@ -1,10 +1,7 @@
-import IParseMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/dtos/IParseMailTemplateProvider';
-import IMailTemplateProvidor from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvidor';
+import IMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider';
 
-export default class FakeMailTemplateProvider implements IMailTemplateProvidor {
-  public async parse({
-    template,
-  }: IParseMailTemplateProvider): Promise<string> {
-    return template;
+export default class FakeMailTemplateProvider implements IMailTemplateProvider {
+  public async parse(): Promise<string> {
+    return 'Mail content';
   }
 }

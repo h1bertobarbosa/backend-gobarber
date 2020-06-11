@@ -2,6 +2,6 @@ interface ITemplateVariables {
   [key: string]: string | number;
 }
 export default interface IParseMailTemplateProvider {
-  template: string;
+  file: string;
   variables: ITemplateVariables;
 }

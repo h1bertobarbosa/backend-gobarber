@@ -4,7 +4,14 @@ import IUserRepository from '@modules/users/repositories/IUserRepository';
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 import { injectable, inject } from 'tsyringe';
 import IUserTokensRepository from '@modules/users/repositories/IUserTokensRepository';
+import path from 'path';
 
+const forgotPasswordTemplate = path.resolve(
+  __dirname,
+  '..',
+  'views',
+  'forgot_password.hbs',
+);
 interface IRequest {
   email: string;
 }
@@ -40,10 +47,11 @@ export default class SendForgotPasswordEmailService {
       },
       subject: '[GoBarber] Recuperação de Senha',
       templeteData: {
-        template: 'Olá, {{name}} seu token é {{token}}',
+        file: forgotPasswordTemplate,
         variables: {
           name: user.name,
           token,
+          link: `http://localhost:3000/reset_password?token?=${token}`,
         },
       },
     });
