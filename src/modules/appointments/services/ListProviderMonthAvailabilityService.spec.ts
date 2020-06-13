@@ -14,14 +14,14 @@ describe('ListProviderMonthAvailability', () => {
   });
 
   it('shold be able to list the month availability from providers', async () => {
+    const hours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+
     await Promise.all([
-      fakeAppointmentRepository.create({
-        provider_id: 'userid',
-        date: new Date(2020, 4, 20, 8, 0, 0),
-      }),
-      fakeAppointmentRepository.create({
-        provider_id: 'userid',
-        date: new Date(2020, 4, 20, 10, 0, 0),
+      hours.map(hour => {
+        return fakeAppointmentRepository.create({
+          provider_id: 'userid',
+          date: new Date(2020, 4, 20, hour, 0, 0),
+        });
       }),
       fakeAppointmentRepository.create({
         provider_id: 'userid',
@@ -39,7 +39,7 @@ describe('ListProviderMonthAvailability', () => {
       expect.arrayContaining([
         { day: 19, available: true },
         { day: 20, available: false },
-        { day: 21, available: false },
+        { day: 21, available: true },
         { day: 22, available: true },
       ]),
     );
