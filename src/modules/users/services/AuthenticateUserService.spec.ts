@@ -1,5 +1,6 @@
 import AppError from '@shared/errors/AppError';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import FakeUserRepository from '../repositories/fakes/FakeUserRepository';
 import AuthenticateUserService from './AuthenticateUserService';
 import CreateUserService from './CreateUserService';
@@ -14,7 +15,11 @@ describe('AuthenticateUser', () => {
     fakeRepository = new FakeUserRepository();
     fakeHashProvider = new FakeHashProvider();
     authUser = new AuthenticateUserService(fakeRepository, fakeHashProvider);
-    createUser = new CreateUserService(fakeRepository, fakeHashProvider);
+    createUser = new CreateUserService(
+      fakeRepository,
+      fakeHashProvider,
+      new FakeCacheProvider(),
+    );
   });
 
   it('shold be able to create a new user', async () => {
