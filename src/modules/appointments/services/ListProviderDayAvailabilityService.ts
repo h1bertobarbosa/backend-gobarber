@@ -44,7 +44,7 @@ export default class ListProviderDayAvailabilityService {
       (_, idx) => idx + HOUR_START,
     );
 
-    const currentDate = new Date(Date.now());
+    const currentDate = new Date();
 
     const availability = eachHourArray.map(hour => {
       const hasAppointmentInHour = appointments.find(
